@@ -12,8 +12,8 @@ KEYWORDS = ["apply", "application", "received", "thank you", "submitted", "unsuc
 
 
 st.set_page_config(page_title="Job tracker", layout="wide")
-st.title("Secure serverless pipeline for Job tracking")
-st.write("An autonomous ETL tracking local inbox and extracting keywords specific unstructured emails and converting it into semantic analysis dashboard")
+st.title("SKADI: Secure serverless pipeline for Job tracking")
+st.write("Hunting down your applications in this gruesome atmosphere")
 
 ## Setup environment keys without hardcoding
 with st.sidebar:
@@ -113,7 +113,23 @@ if run_pipeline:
             analysis = run_semantic_inference(body_preview, api_key_input)
             category = analysis.get("category")
             company = analysis.get("company", "Unknown").strip()
+            role = analysis.get("role", "Unknown").strip()
+            salary = analysis.get("salary","Not Mentioned").strip()
 
+        #don't show anything if its noise
+            if category= "noise":
+                continue
+
+        #build composite key to check in database for rejection/assessment
+
+            composite_key = f"{re.sub(r'[^a-z0-9]', '', company.lower())}_{re.sub(r'[^a-z0-9]', '', role.lower())}"
+            current_time_str = datetime.today().strftime("%Y-%m-%d")
+
+            if category == "confirmation" and composite_key not in master_store:
+                master_store[composite_key] = {
+                    "company": company, "role": role, "salary": salary,
+                    "status": "Applied", "last_update": current_time_str
+                }x
 
 def generate_account_token(token_name):
     print(f"\n--- Authenticating: {token_name} ---")
