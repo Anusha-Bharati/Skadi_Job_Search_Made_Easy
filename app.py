@@ -13,7 +13,7 @@ KEYWORDS = ["apply", "application", "received", "thank you", "submitted", "unsuc
 
 st.set_page_config(page_title="Job tracker", layout="wide")
 st.title("Secure serverless pipeline for Job tracking")
-st.write("An autonomouse ETL tracking local inbox and extracting keywords specific unstructured emails and converting it into semantic analysis dashboard")
+st.write("An autonomous ETL tracking local inbox and extracting keywords specific unstructured emails and converting it into semantic analysis dashboard")
 
 ## Setup environment keys without hardcoding
 with st.sidebar:
@@ -29,8 +29,18 @@ with st.sidebar:
     run_pipeline = st.button("Let's get cracking!")
 
 ##Check the database if the db path exists
+if os.path.exists(DB_PATH):
+    with open(DB_PATH,"r") as f:
+        master_store = json.load(f)
+else:
+    master_store = {} 
 
 ##Authentication loop
+
+def authentication_endpoint(token_path):
+    
+
+
 
 def generate_account_token(token_name):
     print(f"\n--- Authenticating: {token_name} ---")
